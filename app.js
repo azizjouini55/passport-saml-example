@@ -19,6 +19,7 @@ passport.deserializeUser(function(user, done) {
 });
 
 var samlStrategy = new saml.Strategy({
+  path:process.env.CALLBACK_URL,
   // URL that goes from the Identity Provider -> Service Provider
   callbackUrl: process.env.CALLBACK_URL,
   // URL that goes from the Service Provider -> Identity Provider
@@ -27,7 +28,7 @@ var samlStrategy = new saml.Strategy({
   issuer: process.env.ISSUER,
   identifierFormat: null,
   // Service Provider private key
-  decryptionPvk: fs.readFileSync(__dirname + '/cert/key.pem', 'utf8'),
+  decryptionPvk: fs.readFileSync(__dirname + '/cert/cert.pem', 'utf8'),
   // Service Provider Certificate
   privateCert: fs.readFileSync(__dirname + '/cert/key.pem', 'utf8'),
   // Identity Provider's public key
@@ -43,7 +44,7 @@ passport.use(samlStrategy);
 var app = express();
 
 app.use(cookieParser());
-app.use(bodyParser());
+//app.use(bodyParser());
 app.use(session({secret: process.env.SESSION_SECRET}));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -88,14 +89,13 @@ app.get('/Shibboleth.sso/Metadata',
     res.status(200).send(samlStrategy.generateServiceProviderMetadata(fs.readFileSync(__dirname + '/cert/cert.pem', 'utf8')));
   }
 );
-
 //general error handler
 app.use(function(err, req, res, next) {
   console.log("Fatal error: " + JSON.stringify(err));
   next(err);
 });
 
-var server = app.listen(4006, function () {
+var server = app.listen(process.env.PORT, function () {
   console.log('Listening on port %d', server.address().port)
 });
 

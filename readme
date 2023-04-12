@@ -1,0 +1,13 @@
+- intialize shibboleth idp 
+- install passport saml package 
+- configure saml strategy
+- render idp metadata and copy ssl cert
+- generate server ssl certs
+- configure passport strategy attributes
+- issuer is the service provider url :https://172.26.120.204/shibboleth
+- enterypoint is the idp url : https://idp3-test.tu-dresden.de/idp/profile/SAML2/Redirect/SSO
+- include certificates in the strategy attributes
+- install phusion passenger
+- add node appllication path to virtual host 
+- add virtual host to apache config file 
+- create a dockerfile

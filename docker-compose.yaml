@@ -7,7 +7,7 @@ services:
     networks:
      - back
     ports:
-     - "3000:3031"
+     - "3031:3031"
 networks:
   back:    
     driver: bridge

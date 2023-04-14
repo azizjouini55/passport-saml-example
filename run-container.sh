@@ -1,7 +1,7 @@
 
 #!/bin/bash
 
-WEBHOOK_URL="https://new-image.free.beeceptor.com"
+WEBHOOK_URL="https://new-image.free.beeceptor.com/docker-image"
 EXPECTED_VALUE="image pushed"
 SLEEP_TIME=30
 

@@ -1,5 +1,6 @@
 
 #!/bin/bash
+docker compose pull 
 LOCAL_IMAGE_DIGEST=docker inspect --format='{{index .RepoDigests 0}}' azizjouini/passport-app-saml
 SLEEP_TIME=20s
 git add . 

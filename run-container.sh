@@ -12,7 +12,7 @@ docker compose rm -f
 
 while true; do
 DOCKERHUB_DIGEST=docker manifest inspect azizjouini/passport-app-saml | jq -r '.config.digest'
-if ["$DOCKERHUB_DIGEST" -eq "$LOCAL_IMAGE_DIGEST"];
+if ["$DOCKERHUB_DIGEST" -eq "$LOCAL_IMAGE_DIGEST"]; then 
  echo "new image is pushed"
  break
 else

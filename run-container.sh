@@ -2,7 +2,7 @@
 #!/bin/bash
 
 WEBHOOK_URL="https://new-image.free.beeceptor.com"
-EXPECTED_VALUE="new image pushed !"
+EXPECTED_VALUE="image pushed"
 SLEEP_TIME=30
 
 git add . 
@@ -16,7 +16,6 @@ docker compose rm -f
 while true; do
   # Make a request to the endpoint and capture the response
   response=$(curl -s -X POST $WEBHOOK_URL)
-  echo $response
   # Check if the response contains the expected message or value
   if [[ "$response" == *"$EXPECTED_VALUE"* ]]; then
     echo "Webhook triggered successfully!"

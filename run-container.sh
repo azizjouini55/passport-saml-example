@@ -16,7 +16,7 @@ docker compose rm -f
 while true; do
   # Make a request to the endpoint and capture the response
   response=$(curl -s -X POST $WEBHOOK_URL)
-
+  echo $response
   # Check if the response contains the expected message or value
   if [[ "$response" == *"$EXPECTED_VALUE"* ]]; then
     echo "Webhook triggered successfully!"

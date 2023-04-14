@@ -13,6 +13,8 @@ docker image rm azizjouini/passport-app-saml --force
 
 while true; do
 DOCKERHUB_DIGEST=$(docker manifest inspect azizjouini/passport-app-saml | jq -r '.config.digest')
+echo $DOCKERHUB_DIGEST
+echo $LOCAL_IMAGE_DIGEST
 if ["$DOCKERHUB_DIGEST" == "$LOCAL_IMAGE_DIGEST"]; then 
   echo "no image pushed"
 else

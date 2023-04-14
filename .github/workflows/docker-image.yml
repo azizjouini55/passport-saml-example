@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag passport-app-saml:latest
+      run: docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/passport-app-saml:latest
     - name: Docker Login
       uses: docker/login-action@v2.1.0
       with:
@@ -25,4 +25,4 @@ jobs:
         logout: false
     - name: Push Docker image to Docker Hub
       run: |
-          docker push azizjouini/passport-app-saml:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/passport-app-saml:latest

@@ -13,10 +13,10 @@ docker compose rm -f
 while true; do
 DOCKERHUB_DIGEST=$(docker manifest inspect azizjouini/passport-app-saml | jq -r '.config.digest')
 if ["$DOCKERHUB_DIGEST" == "$LOCAL_IMAGE_DIGEST"]; then 
+  echo "no image pushed"
+else
  echo "new image is pushed"
  break
-else
- echo "no image pushed"
  fi
 
 sleep $SLEEP_TIME

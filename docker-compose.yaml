@@ -4,6 +4,7 @@ version: "3.3"
 services:
   app:
     image: azizjouini/passport-app-saml:latest
+    pull_policy: always
     networks:
      - back
     ports:

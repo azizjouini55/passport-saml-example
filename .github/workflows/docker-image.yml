@@ -25,4 +25,4 @@ jobs:
         logout: false
     - name: Push Docker image to Docker Hub
       run: |
-          docker push azizjouini/passport-app-saml:latest
+          docker push azizjouini/passport-app-saml:$(date +%s)

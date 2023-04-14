@@ -1,6 +1,6 @@
 
 #!/bin/bash
-LOCAL_IMAGE_DIGEST=docker inspect --format='{{index .RepoDigests 0}}' azizjouini/passport-app-saml
+LOCAL_IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' azizjouini/passport-app-saml)
 SLEEP_TIME=20s
 git add . 
 git commit -m "updated image"
@@ -11,8 +11,8 @@ docker image rm azizjouini/passport-app-saml --force
 docker compose rm -f
 
 while true; do
-DOCKERHUB_DIGEST=docker manifest inspect azizjouini/passport-app-saml | jq -r '.config.digest'
-if ["$DOCKERHUB_DIGEST" -eq "$LOCAL_IMAGE_DIGEST"]; then 
+DOCKERHUB_DIGEST=$(docker manifest inspect azizjouini/passport-app-saml | jq -r '.config.digest')
+if ["$DOCKERHUB_DIGEST" == "$LOCAL_IMAGE_DIGEST"]; then 
  echo "new image is pushed"
  break
 else

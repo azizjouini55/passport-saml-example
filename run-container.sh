@@ -1,7 +1,7 @@
 
 #!/bin/bash
 docker compose pull 
-LOCAL_IMAGE_DIGEST=docker inspect --format='{{index .RepoDigests 0}}' azizjouini/passport-app-saml
+LOCAL_IMAGE_DIGEST=$(docker inspect --format='{{index .RepoDigests 0}}' azizjouini/passport-app-saml)
 SLEEP_TIME=20s
 git add . 
 git commit -m "updated image"
@@ -13,7 +13,7 @@ docker image rm azizjouini/passport-app-saml --force
 
 
 while true; do
-DOCKERHUB_DIGEST=docker manifest inspect azizjouini/passport-app-saml | jq -r '.config.digest'
+DOCKERHUB_DIGEST=$(docker manifest inspect azizjouini/passport-app-saml | jq -r '.config.digest')
 echo $DOCKERHUB_DIGEST
 echo $LOCAL_IMAGE_DIGEST
 if ["$DOCKERHUB_DIGEST" == "$LOCAL_IMAGE_DIGEST"];then 

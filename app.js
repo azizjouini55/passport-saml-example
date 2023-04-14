@@ -44,8 +44,20 @@ passport.use(samlStrategy);
 var app = express();
 
 app.use(cookieParser());
-//app.use(bodyParser());
-app.use(session({secret: process.env.SESSION_SECRET}));
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
+app.use(bodyParser.json());
+app.use(session({
+  name : 'codeil',
+  secret : process.env.SESSION_SECRET,
+  resave :false,
+  saveUninitialized: true,
+  cookie : {
+          maxAge:(1000 * 60 * 100)
+  }      
+}));
+//app.use(session({secret: process.env.SESSION_SECRET}));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -56,11 +68,8 @@ function ensureAuthenticated(req, res, next) {
     return res.redirect('/login');
 }
 
-app.get('/',
-  ensureAuthenticated, 
-  function(req, res) {
-    res.send('Authenticated');
-  }
+app.get('/',ensureAuthenticated, 
+  function(req, res){ res.send('Authenticated')}
 );
 
 app.get('/login',
@@ -73,8 +82,8 @@ app.get('/login',
 app.post('/login/callback',
    passport.authenticate('saml', { failureRedirect: '/login/fail' , failureFlash: true}),
   function(req, res) {
-   // res.redirect('/');
-	res.send("ab3ath ya walid")
+   res.redirect('/');
+
   }
 );
 

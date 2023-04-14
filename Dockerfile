@@ -13,10 +13,6 @@ RUN npm install
 # Copy the application code to the container
 COPY . .
 
-# Set the environment variables for the application
-ENV NODE_ENV=production
-ENV PORT=3030
-
 # Expose the port that the application will listen on
 EXPOSE $PORT
 

@@ -19,6 +19,7 @@ while true; do
   # Check if the response contains the expected message or value
   if [[ "$response" == *"$EXPECTED_VALUE"* ]]; then
     echo "Webhook triggered successfully!"
+    break
     # Do something here when the webhook is triggered
   else
     echo "Webhook not triggered."

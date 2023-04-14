@@ -7,8 +7,9 @@ git commit -m "updated image"
 git push origin 
 
 docker compose stop
-docker image rm azizjouini/passport-app-saml --force
 docker compose rm -f
+docker image rm azizjouini/passport-app-saml --force
+
 
 while true; do
 DOCKERHUB_DIGEST=$(docker manifest inspect azizjouini/passport-app-saml | jq -r '.config.digest')

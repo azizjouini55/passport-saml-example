@@ -2,7 +2,7 @@
 #!/bin/bash
 
 WEBHOOK_URL="https://new-image.free.beeceptor.com/docker-image"
-EXPECTED_VALUE="image pushed"
+EXPECTED_VALUE="{ "status": "image pushed"}"
 SLEEP_TIME=30
 
 git add . 

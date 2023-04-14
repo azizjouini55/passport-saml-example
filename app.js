@@ -34,7 +34,7 @@ var samlStrategy = new saml.Strategy({
   // Identity Provider's public key
   cert: fs.readFileSync(__dirname + '/cert/idp_cert.pem', 'utf8'),
   validateInResponseTo: false,
-  disableRequestedAuthnContext: true
+  disableRequestedAuthnContext:  false
 }, function(profile, done) {
   return done(null, profile); 
 });
@@ -64,16 +64,17 @@ app.get('/',
 );
 
 app.get('/login',
-  passport.authenticate('saml', { failureRedirect: '/login/fail' }),
+  passport.authenticate('saml', { failureRedirect: '/login/fail', failureFlash: true }),
   function (req, res) {
     res.redirect('/');
   }
 );
 
 app.post('/login/callback',
-   passport.authenticate('saml', { failureRedirect: '/login/fail' }),
+   passport.authenticate('saml', { failureRedirect: '/login/fail' , failureFlash: true}),
   function(req, res) {
-    res.redirect('/');
+   // res.redirect('/');
+	res.send("ab3ath ya walid")
   }
 );
 

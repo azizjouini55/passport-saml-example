@@ -1,3 +1,4 @@
+---application and middleware configuration
 - intialize shibboleth idp 
 - install passport saml package 
 - configure saml strategy
@@ -10,4 +11,8 @@
 - install phusion passenger
 - add node appllication path to virtual host 
 - add virtual host to apache config file 
+
+---containerizing the app
 - create a dockerfile
+- create a github action to build and push image
+- create docker compose file to pull and run a container from new image

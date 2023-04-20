@@ -1,12 +1,11 @@
-var http = require('http');
-var fs = require('fs');
-var express = require("express");
-var dotenv = require('dotenv');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var passport = require('passport');
-var saml = require('passport-saml');
+let fs = require('fs');
+const express = require("express");
+const dotenv = require('dotenv');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const passport = require('passport');
+const saml = require('passport-saml');
 
 dotenv.load();
 
@@ -18,7 +17,8 @@ passport.deserializeUser(function(user, done) {
   done(null, user);
 });
 
-var samlStrategy = new saml.Strategy({
+
+const samlStrategy = new saml.Strategy({
   path:process.env.CALLBACK_URL,
   // URL that goes from the Identity Provider -> Service Provider
   callbackUrl: process.env.CALLBACK_URL,
@@ -28,11 +28,14 @@ var samlStrategy = new saml.Strategy({
   issuer: process.env.ISSUER,
   identifierFormat: null,
   // Service Provider private key
-  decryptionPvk: fs.readFileSync(__dirname + '/cert/cert.pem', 'utf8'),
-  // Service Provider Certificate
-  privateCert: fs.readFileSync(__dirname + '/cert/key.pem', 'utf8'),
+  encryptionAlgorithm: 'http://www.w3.org/TR/2002/REC-xml-exc-c14n-20020718/',
+  privateKey: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key',"utf-8" ),
+  decryptionPvk: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key' ,"utf-8" ),
+  decryptionCert: fs.readFileSync( '/etc/ssl/certs/ssl-cert-snakeoil.pem',"utf-8"  ),
+  signingCert:fs.readFileSync( '/etc/ssl/certs/ssl-cert-snakeoil.pem' ,"utf-8" ),
+
   // Identity Provider's public key
-  cert: fs.readFileSync(__dirname + '/cert/idp_cert.pem', 'utf8'),
+  cert: fs.readFileSync('/etc/ssl/aai/dfn-aai.pem', 'utf8'),
   validateInResponseTo: false,
   disableRequestedAuthnContext:  false
 }, function(profile, done) {
@@ -41,7 +44,7 @@ var samlStrategy = new saml.Strategy({
 
 passport.use(samlStrategy);
 
-var app = express();
+let app = express();
 
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({
@@ -57,7 +60,7 @@ app.use(session({
           maxAge:(1000 * 60 * 100)
   }      
 }));
-//app.use(session({secret: process.env.SESSION_SECRET}));
+app.use(session());
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -79,7 +82,7 @@ app.get('/login',
   }
 );
 
-app.post('/login/callback',
+app.post('/login/callback', 
    passport.authenticate('saml', { failureRedirect: '/login/fail' , failureFlash: true}),
   function(req, res) {
    res.redirect('/');
@@ -96,7 +99,7 @@ app.get('/login/fail',
 app.get('/Shibboleth.sso/Metadata', 
   function(req, res) {
     res.type('application/xml');
-    res.status(200).send(samlStrategy.generateServiceProviderMetadata(fs.readFileSync(__dirname + '/cert/cert.pem', 'utf8')));
+    res.status(200).send(samlStrategy.generateServiceProviderMetadata( fs.readFileSync(__dirname + '/cert/cert.pem', 'utf8')));
   }
 );
 //general error handler
@@ -105,8 +108,8 @@ app.use(function(err, req, res, next) {
   next(err);
 });
 
-var server = app.listen(process.env.PORT, function () {
+let server = app.listen(process.env.PORT, function () {
   console.log('Listening on port %d', server.address().port)
-  console.log(Date.UTC)
+
   
 });

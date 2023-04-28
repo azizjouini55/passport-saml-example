@@ -41,8 +41,8 @@ const samlStrategy = new saml.Strategy({
 }, function(profile, done) {
   return done(null, profile); 
 });
-
 passport.use(samlStrategy);
+
 
 let app = express();
 

@@ -6,9 +6,9 @@ services:
     image: azizjouini/passport-app-saml:latest
     pull_policy: always
     volumes:
-      - /etc/ssl/certs/ssl-cert-snakeoil.pem:/app/cert/ssl-cert-snakeoil.pem
-      - /etc/ssl/private/ssl-cert-snakeoil.key:/app/cert/ssl-cert-snakeoil.key
-      - /etc/ssl/aai/dfn-aai.pem:/app/cert/dfn-aai.pem
+      - /etc/ssl/certs/ssl-cert-snakeoil.pem:./cert/ssl-cert-snakeoil.pem
+      - /etc/ssl/private/ssl-cert-snakeoil.key:./cert/ssl-cert-snakeoil.key
+      - /etc/ssl/aai/dfn-aai.pem:./cert/dfn-aai.pem
     networks:
      - back
     ports:

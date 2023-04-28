@@ -29,13 +29,13 @@ const samlStrategy = new saml.Strategy({
   identifierFormat: null,
   // Service Provider private key
   encryptionAlgorithm: 'http://www.w3.org/TR/2002/REC-xml-exc-c14n-20020718/',
-  privateKey: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key',"utf-8" ),
-  decryptionPvk: fs.readFileSync('/etc/ssl/private/ssl-cert-snakeoil.key' ,"utf-8" ),
-  decryptionCert: fs.readFileSync( '/etc/ssl/certs/ssl-cert-snakeoil.pem',"utf-8"  ),
-  signingCert:fs.readFileSync( '/etc/ssl/certs/ssl-cert-snakeoil.pem' ,"utf-8" ),
+  privateKey: fs.readFileSync(process.env.PV_KEY,"utf-8" ),
+  decryptionPvk: fs.readFileSync(process.env.PV_KEY ,"utf-8" ),
+  decryptionCert: fs.readFileSync(process.env.SP_CERT,"utf-8"  ),
+  signingCert:fs.readFileSync(process.env.SP_CERT ,"utf-8" ),
 
   // Identity Provider's public key
-  cert: fs.readFileSync('/etc/ssl/aai/dfn-aai.pem', 'utf8'),
+  cert: fs.readFileSync(process.env.IDP_CERT, 'utf8'),
   validateInResponseTo: false,
   disableRequestedAuthnContext:  false
 }, function(profile, done) {

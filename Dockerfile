@@ -12,6 +12,9 @@ RUN npm install
 
 # Copy the application code to the container
 COPY . .
+
+
+
 RUN cp ./saml.js ./node_modules/passport-saml/lib/node-saml
 
 # Start the application in the container

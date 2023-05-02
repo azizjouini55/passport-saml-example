@@ -72,7 +72,7 @@ function ensureAuthenticated(req, res, next) {
 }
 
 app.get('/',ensureAuthenticated, 
-  function(req, res){ res.send('Authenticated')}
+  function(req, res){ res.send('Authenticated with TUD credentials')}
 );
 
 app.get('/login',

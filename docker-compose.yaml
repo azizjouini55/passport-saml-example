@@ -14,16 +14,7 @@ services:
      - back
     ports:
      - "3031:3031"
-  #sp:
-  #  build: ./shib-sp
-  #  volumes:
-  #    - /etc/ssl/certs/ssl-cert-snakeoil.pem:/app/cert/ssl-cert-snakeoil.pem
-  #    - /etc/ssl/private/ssl-cert-snakeoil.key:/app/cert/ssl-cert-snakeoil.key
-  #    - /etc/ssl/aai/dfn-aai.pem:/app/cert/dfn-aai.pem
-  #  networks:
-  #    -back
-  #  ports:
-  #    "8080:80"
+
 
 networks:
   back:    

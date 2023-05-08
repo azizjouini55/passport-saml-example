@@ -99,7 +99,7 @@ app.get('/login/fail',
 app.get('/Shibboleth.sso/Metadata', 
   function(req, res) {
     res.type('application/xml');
-    res.status(200).send(samlStrategy.generateServiceProviderMetadata( fs.readFileSync(__dirname + '/cert/cert.pem', 'utf8')));
+    res.status(200).send(samlStrategy.generateServiceProviderMetadata( fs.readFileSync(process.env.SP_CERT, 'utf8'),fs.readFileSync(process.env.SP_CERT, 'utf8')));
   }
 );
 //general error handler

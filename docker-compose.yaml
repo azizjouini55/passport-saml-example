@@ -7,6 +7,7 @@ services:
     build: .
     pull_policy: always
     volumes:
+      #replace with real certificates and key paths from your machine 
       - /etc/ssl/certs/ssl-cert-snakeoil.pem:/app/cert/ssl-cert-snakeoil.pem
       - /etc/ssl/private/ssl-cert-snakeoil.key:/app/cert/ssl-cert-snakeoil.key
       - /etc/ssl/aai/dfn-aai.pem:/app/cert/dfn-aai.pem
@@ -14,6 +15,17 @@ services:
      - back
     ports:
      - "3031:3031"
+#testing keycloak service 
+#  keycloak:
+#    container_name: keycloak
+#    image: "jboss/keycloak:15.0.2"
+#     volumes:
+#      - ./kc-data:/var/lib/postgresql/data/
+#    ports:
+#      - "8080:8080"
+#      - "8787:8787" # debug port
+#    networks:
+#      - back
 
 
 networks:

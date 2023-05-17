@@ -15,7 +15,14 @@ services:
      - back
     ports:
      - "3031:3031"
-#testing keycloak service 
+
+  py-app:
+    build: ./flask-app
+    volumes:
+    ports:
+      - "8000:8000"
+      
+# testing keycloak service 
 #  keycloak:
 #    container_name: keycloak
 #    image: "jboss/keycloak:15.0.2"

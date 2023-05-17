@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
 const saml = require('passport-saml');
+const jwt = require("jsonwebtoken");
 
 dotenv.load();
 
@@ -78,6 +79,21 @@ app.get('/',ensureAuthenticated,
 app.get('/login',
   passport.authenticate('saml', { failureRedirect: '/login/fail', failureFlash: true }),
   function (req, res) {
+    // create jwt here
+    //post a request using fetch or axios to flask micro service 
+    const token = jwt.sign(
+      { user_id: user._id, email },
+      process.env.TOKEN_KEY,
+      {
+        expiresIn: "2h",
+      }
+    );
+
+    // save user token
+    user.token = token;
+
+    // user
+    res.status(200).json(user);
     res.redirect('/');
   }
 );

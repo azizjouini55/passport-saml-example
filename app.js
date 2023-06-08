@@ -7,6 +7,8 @@ const session = require('express-session');
 const passport = require('passport');
 const saml = require('passport-saml');
 const jwt = require("jsonwebtoken");
+const axios = require('axios');
+
 
 dotenv.load();
 
@@ -72,54 +74,55 @@ function ensureAuthenticated(req, res, next) {
     return res.redirect('/login');
 }
 
+
+
 app.get('/',ensureAuthenticated, 
-  function(req, res){ res.send('Authenticated with TUD credentials')}
+  (req, res) => { res.send('Authenticated with TUD credentials')}
 );
 
 app.get('/login',
   passport.authenticate('saml', { failureRedirect: '/login/fail', failureFlash: true }),
-  function (req, res) {
-    // create jwt here
-    //post a request using fetch or axios to flask micro service 
-    const token = jwt.sign(
-      { user_id: user._id, email },
-      process.env.TOKEN_KEY,
-      {
-        expiresIn: "2h",
-      }
-    );
-
-    // save user token
-    user.token = token;
-
-    // user
-    res.status(200).json(user);
-    res.redirect('/');
-  }
+ 
 );
+
+
+
+app.get('/login/py-app/',ensureAuthenticated,
+ async  (req, res) => {
+  try {
+    const response = await axios.get('http://py-app:8081');
+    // Process the response from the other microservice
+    res.json(response.data);
+  } catch (error) {
+    // Handle any errors that occur during the request
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+
+}
+  )
 
 app.post('/login/callback', 
    passport.authenticate('saml', { failureRedirect: '/login/fail' , failureFlash: true}),
-  function(req, res) {
-   res.redirect('/');
+  (req, res) => { res.redirect('/');
 
   }
 );
 
 app.get('/login/fail', 
-  function(req, res) {
+  (req, res) => {
     res.status(401).send('Login failed');
   }
 );
 
 app.get('/Shibboleth.sso/Metadata', 
-  function(req, res) {
+  (req, res) => {
     res.type('application/xml');
     res.status(200).send(samlStrategy.generateServiceProviderMetadata( fs.readFileSync(process.env.SP_CERT, 'utf8'),fs.readFileSync(process.env.SP_CERT, 'utf8')));
   }
 );
 //general error handler
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
   console.log("Fatal error: " + JSON.stringify(err));
   next(err);
 });

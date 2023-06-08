@@ -13,7 +13,6 @@ RUN npm install
 # Copy the application code to the container
 COPY . .
 
-#RUN /etc/ssl/certs/ssl-cert-snakeoil.pem ./cert/
 
 RUN cp ./saml.js ./node_modules/passport-saml/lib/node-saml
 RUN cp ./xmlenc.js ./node_modules/xml-encryption/lib/xmlenc.js

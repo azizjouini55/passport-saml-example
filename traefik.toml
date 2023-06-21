@@ -1,0 +1,46 @@
+[global]
+  checkNewVersion = false
+  sendAnonymousUsage = false
+
+[log]
+  level = "DEBUG"
+
+[entryPoints] # Creating an entrypoint listening on port 80 with the default protocol of TCP
+  [entryPoints.server]
+    address = ":80"
+  [entryPoints.dashboard]
+  address = ":8080"
+
+[http.routers] # Creating a router which routes all requests matching Host == whoami.docker.localhost to the auth-service
+  [http.routers.my-router]
+    rule = "Host(`app.docker.localhost`)"
+    service = "auth-service"
+
+[http.services]  # Defining a service called auth-service with its accompanying url
+  [http.services.auth-service.loadBalancer]
+    [[http.services.auth-service.loadBalancer.servers]]
+      url = "http://auth-service:3031"
+
+[api]
+  insecure = true # Enables the web UI
+
+[providers] # Providers will be looked at in the next section
+  [providers.file]
+    filename = "/etc/traefik/traefik.toml"
+
+defaultEntryPoints = ["http"]
+logLevel = "INFO"
+
+sendAnonymousUsage = true
+
+[docker]
+  endpoint = "unix:///var/run/docker.sock"
+  exposedByDefault = false
+
+# enabling api is not absolutely necessary, it is needed only if you need dashboard.
+
+[entryPoints]
+  [entryPoints.http]
+  address = ":80"
+
+  

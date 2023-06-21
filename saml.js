@@ -904,8 +904,8 @@ class SAML {
         profile.getAssertion = () => parsedAssertion;
         profile.getSamlResponseXml = () => samlResponseXml;
         return { profile, loggedOut: false };
-    }
-    /*checkTimestampsValidityError(nowMs, notBefore, notOnOrAfter, maxTimeLimitMs) {
+    }//skewness err
+    checkTimestampsValidityError(nowMs, notBefore, notOnOrAfter, maxTimeLimitMs) {
         if (this.options.acceptedClockSkewMs == -1)
             return null;
         if (notBefore) {
@@ -923,7 +923,7 @@ class SAML {
                 return new Error("SAML assertion expired: assertion too old");
         }
         return null;
-    }*/
+    }
     checkAudienceValidityError(expectedAudience, audienceRestrictions) {
         if (!audienceRestrictions || audienceRestrictions.length < 1) {
             return new Error("SAML assertion has no AudienceRestriction");

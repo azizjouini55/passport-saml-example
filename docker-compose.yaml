@@ -9,7 +9,10 @@ services:
     pull_policy: always
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.auth-service.rule=Host(`auth-service.localhost`)"
+      -  "traefik.docker.network=front"
+      - "traefik.http.routers.auth-service.rule=(Host(`172.26.120.204`) && PathPrefix(`/`))"
+      - "traefik.http.routers.auth-service.entrypoints=http"
+      - "traefik.http.services.auth-service.loadbalancer.server.port=3031"
     volumes:
       #replace with real certificates and key paths from your machine 
       - /etc/ssl/certs/ssl-cert-snakeoil.pem:/app/cert/ssl-cert-snakeoil.pem
@@ -19,32 +22,39 @@ services:
     depends_on:
       - reverse-proxy
     networks:
-     - back
-     - front
-    ports:
-     - "3031:3031"
+      - front
+    expose:
+     - "3031"
 
   py-app:
     build: ./flask-app
     container_name: test-app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.py-app.rule=(Host(`172.26.120.204) && PathPrefix(`/app`))"
     depends_on:
       - auth-service
+      - reverse-proxy
     expose:
       - "8081"
     networks:
-     - back
+     - front
 
   reverse-proxy:
     image: traefik:v2.9
     container_name: traefik-router
-    command: --api.insecure=true --providers.docker
+    command: --api.insecure=true  --providers.docker
+    labels:
+      traefik.http.routers.api.entryPoints: http # Set the Traefik entry point.
+ 
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports: 
       - "8083:80"
       - "8085:8080"
     networks:
-    - front
+       - front 
+      
 
   # prometheus:
   #   image: prom/prometheus:v2.1.0
@@ -68,7 +78,7 @@ networks:
   back:    
     driver: bridge
   front:
-    driver: bridge
+    external: true
 
     
 

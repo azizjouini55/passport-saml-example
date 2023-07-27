@@ -86,7 +86,7 @@ app.get('/login',
 );
 
 
-//custom routes here
+//custom routes here using axios 
 app.get('/login/py-app/',ensureAuthenticated,
  async  (req, res) => {
   try {
@@ -102,7 +102,7 @@ app.get('/login/py-app/',ensureAuthenticated,
 
 }
   )
-
+//custom routes
 app.post('/login/callback', 
    passport.authenticate('saml', {failureRedirect: '/login/fail' , failureFlash: true}),
   (req, res) => { res.redirect('/');

@@ -20,5 +20,5 @@ after installing an sp on our host machine , we can then configure the node.js m
 which enables us to employ diffrent methods of Authentication , in our case we used passport-saml.
 this microservice is always built and pushed to docker hub using a github actions workflow.
 
-for Traefik we used it to hide our internal services that way we have a scalable solution , in case we start deploying multiple middleware services for diffrent applications
+for Traefik we used it to hide our internal services that way we have a scalable solution , in case we need to  deploy multiple middleware services for diffrent applications
 

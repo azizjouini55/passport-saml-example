@@ -1,4 +1,4 @@
---- Containerised micro service protected by shibboleth SSO 
+---Containerised micro service protected by shibboleth SSO 
 
 The sample application is a simple flask REST API. 
 we are running a docker compose stack with 3 containers:
